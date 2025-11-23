@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WaterMonitor Dashboard</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: linear-gradient(180deg, #234a7d, #1c355a);
+            height: 100vh;
+            margin: 0;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 40px;
+            border-radius: 14px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .level-box {
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 10px;
+            font-size: 26px;
+            font-weight: bold;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+        }
+
+        .btn {
+            background: #00c8ff;
+            color: #003049;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn:hover {
+            background: #38e0ff;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            margin-top: 40px;
+            font-size: 13px;
+            opacity: 0.7;
+        }
+    </style>
+
+    <script>
+        async function cargarNivel() {
+            const url = "https://watermonitor-simple-27824.s3.amazonaws.com/level.json";  // <-- TU BUCKET
+
+            try {
+                const res = await fetch(url);
+                const data = await res.json();
+                document.getElementById("nivel").innerText = data.level;
+            } catch (e) {
+                document.getElementById("nivel").innerText = "Error al cargar";
+            }
+        }
+    </script>
+
+</head>
+<body onload="cargarNivel()">
+
+    <div class="card">
+        <h1>💧 WaterMonitor<br>Dashboard</h1>
+
+        <div id="nivel" class="level-box">Cargando...</div>
+
+        <button class="btn" onclick="cargarNivel()">Actualizar Nivel</button>
+    </div>
+
+    <footer>Proyecto AWS | UDG</footer>
+
+</body>
+</html>
